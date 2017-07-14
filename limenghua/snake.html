@@ -53,9 +53,14 @@
             return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || derection == 1 && head % 20 == 0 || derection == -1 && head % 20 == 19;
         }
 
-        function process() {
-            let newHead = snakes[0] + derection;
+        function moveSnake(direction){
+            let newHead = snakes[0] + direction;
             snakes.unshift(newHead);
+            return newHead;
+        }
+
+        function process() {
+            let newHead = moveSnake(derection);
 
             if (isHitTheWall(newHead)){
                 return alert("GAME OVER");
