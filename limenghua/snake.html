@@ -22,13 +22,9 @@
                  CODE_RIGHT = 39,
                  CODE_DONW = 40;
             
-            const CARE_CODE = [CODE_LEFT,CODE_UP,CODE_RIGHT,CODE_DONW];
-            let code = e.keyCode;
-            if(CARE_CODE.indexOf(code) < 0)return;
-
             let newDerection = -1;
 
-            switch(code){
+            switch(e.keyCode){
                 case CODE_LEFT:
                     newDerection = -1;
                     break;
@@ -52,6 +48,8 @@
         function isHitTheWall(head){
             return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || derection == 1 && head % 20 == 0 || derection == -1 && head % 20 == 19;
         }
+
+        
 
         function moveSnake(direction){
             let newHead = snakes[0] + direction;
