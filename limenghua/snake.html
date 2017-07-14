@@ -4,10 +4,10 @@
 <body>
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
     <script>
-        var sn = [42, 41],
-            dz = 43,
-            fx = 1,
-            n, ctx = document.getElementById("can").getContext("2d");
+        var snakes = [42, 41],
+            foodPos = 43,
+            derection = 1,
+            ctx = document.getElementById("can").getContext("2d");
 
         function draw(t, c) {
             ctx.fillStyle = c;
@@ -26,25 +26,48 @@
             let code = e.keyCode;
             if(CARE_CODE.indexOf(code) < 0)return;
 
-            n = [-1, -20, 1, 20][code - 37];
+            let newDerection = -1;
 
-            fx = sn[1] - sn[0] ==  n ? fx : n
+            switch(code){
+                case CODE_LEFT:
+                    newDerection = -1;
+                    break;
+                case CODE_UP:
+                    newDerection = -20;
+                    break;
+                case CODE_RIGHT:
+                    newDerection = 1;
+                    break;
+                case CODE_DONW:
+                    newDerection = 20;
+                    break;
+                default:
+                    return;               
+            }
+
+            if(newDerection == -derection)return;
+            derection = newDerection;
         };
 
-        function process() {
-            sn.unshift(n = sn[0] + fx);
+        function isHitTheWall(head){
+            return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || derection == 1 && head % 20 == 0 || derection == -1 && head % 20 == 19;
+        }
 
-            if (sn.indexOf(n, 1) > 0 || n < 0 || n > 399 || fx == 1 && n % 20 == 0 || fx == -1 && n % 20 == 19){
+        function process() {
+            let newHead = snakes[0] + derection;
+            snakes.unshift(newHead);
+
+            if (isHitTheWall(newHead)){
                 return alert("GAME OVER");
             } 
 
-            draw(n, "Lime");
+            draw(newHead, "Lime");
 
-            if (n == dz) {
-                while (sn.indexOf(dz = ~~(Math.random() * 400)) >= 0);
-                draw(dz, "Yellow");
+            if (newHead == foodPos) {
+                while (snakes.indexOf(foodPos = ~~(Math.random() * 400)) >= 0);
+                draw(foodPos, "Yellow");
             } else{
-                draw(sn.pop(), "Black");
+                draw(snakes.pop(), "Black");
             }
 
            
