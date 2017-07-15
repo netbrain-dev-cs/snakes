@@ -9,6 +9,10 @@
               KEY_RIGHT = 39,
               KEY_DONW = 40;
 
+        const BLOCK_WIDTH = 
+              BLOCK_HEIGHT = 20;
+        const BLOCK_UNIT_PIXEL = 20;
+
         let snakes = [42, 41],
             foodPos = 43,
             direction = 1,
@@ -16,8 +20,8 @@
 
         function drawItem(pos, color) {
             ctx.fillStyle = color;
-            let x = pos % 20 * 20 + 1,
-                y =  ~~(pos / 20) * 20 + 1;
+            let x = pos % BLOCK_WIDTH * BLOCK_UNIT_PIXEL + 1,
+                y =  ~~(pos / BLOCK_WIDTH) * BLOCK_UNIT_PIXEL + 1;
             ctx.fillRect(x,y, 18, 18);
         }
 
@@ -29,13 +33,13 @@
                     newDerection = -1;
                     break;
                 case KEY_UP:
-                    newDerection = -20;
+                    newDerection = -BLOCK_WIDTH;
                     break;
                 case KEY_RIGHT:
                     newDerection = 1;
                     break;
                 case KEY_DONW:
-                    newDerection = 20;
+                    newDerection = BLOCK_WIDTH;
                     break;
                 default:
                     return;               
@@ -46,7 +50,7 @@
         };
 
         function isHitTheWall(head){
-            return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || direction == 1 && head % 20 == 0 || direction == -1 && head % 20 == 19;
+            return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || direction == 1 && head % BLOCK_WIDTH == 0 || direction == -1 && head % BLOCK_WIDTH == 19;
         }
 
         function caculateNextPos(pos,direction){
@@ -64,7 +68,7 @@
             return snakes.indexOf(pos) > 0;
         }
 
-        function getRandomFoodPos(){
+        function getNewRandomFoodPos(){
             while(true){
                 let randPos =  Math.random() * 400;
                 randPos = Math.floor(randPos);
@@ -76,7 +80,7 @@
         }
 
         function drawBackgraound(){
-            for(let i =0;i<400;i++){
+            for(let i =0;i<BLOCK_WIDTH * BLOCK_HEIGHT;i++){
                 drawItem(i,"Black");
             }
         }
@@ -111,7 +115,7 @@
             }
 
             if (isHitPos(foodPos)) {
-                foodPos = getRandomFoodPos();
+                foodPos = getNewRandomFoodPos();
             } else{
                 snakes.pop();
             }
