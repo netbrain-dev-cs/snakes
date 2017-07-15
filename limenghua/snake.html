@@ -11,7 +11,7 @@
 
         let snakes = [42, 41],
             foodPos = 43,
-            derection = 1,
+            direction = 1,
             ctx = document.getElementById("can").getContext("2d");
 
         function draw(t, c) {
@@ -41,12 +41,12 @@
                     return;               
             }
 
-            if(newDerection == -derection)return;
-            derection = newDerection;
+            if(newDerection == -direction)return;
+            direction = newDerection;
         };
 
         function isHitTheWall(head){
-            return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || derection == 1 && head % 20 == 0 || derection == -1 && head % 20 == 19;
+            return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || direction == 1 && head % 20 == 0 || direction == -1 && head % 20 == 19;
         }
 
         function caculateNextPos(pos,direction){
@@ -61,7 +61,7 @@
         }
 
         function process() {
-            let newHead = moveSnake(derection);
+            let newHead = moveSnake(direction);
 
             if (isHitTheWall(newHead)){
                 return alert("GAME OVER");
