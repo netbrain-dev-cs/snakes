@@ -49,7 +49,8 @@
             direction = newDerection;
         };
 
-        function isHitTheWall(head){
+        function isHitTheWall(){
+            let head = snakes[0];
             return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || direction == 1 && head % BLOCK_WIDTH == 0 || direction == -1 && head % BLOCK_WIDTH == 19;
         }
 
@@ -108,9 +109,9 @@
         
 
         function process() {
-            let newHead = moveSnake(direction);
+            moveSnake(direction);
 
-            if (isHitTheWall(newHead)){
+            if (isHitTheWall()){
                 return alert("GAME OVER");
             }
 
