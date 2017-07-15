@@ -5,142 +5,154 @@
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
     <script>
         let ctx = document.getElementById("can").getContext("2d");
-        
-        const BLOCK_WIDTH = 
-              BLOCK_HEIGHT = 20;
-        const BLOCK_UNIT_PIXEL = 20;
 
-        let snakes = [42, 41],
-            foodPos = 43,
-            direction = 1;
-            
+        class SnakeGame {
+            constructor(boardWitdth, unitPixel) {
+                this.BLOCK_WIDTH = boardWitdth;
+                this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
+                this.BLOCK_UNIT_PIXEL = unitPixel;
 
-        function drawItem(pos, color) {
-            ctx.fillStyle = color;
-            let x = getX(pos) * BLOCK_UNIT_PIXEL + 1,
-                y =  getY(pos) * BLOCK_UNIT_PIXEL + 1;
-            ctx.fillRect(x,y, 18, 18);
+                this.snakes = [42, 41];
+                this.foodPos = 43;
+                this.direction = 1;
+            }
+
+            drawItem(pos, color) {
+                ctx.fillStyle = color;
+                let x = this.getX(pos) * this.BLOCK_UNIT_PIXEL + 1,
+                    y = this.getY(pos) * this.BLOCK_UNIT_PIXEL + 1;
+                ctx.fillRect(x, y, 18, 18);
+            }
+            turnLeft() {
+                if (this.direction != 1) this.direction = -1;
+            }
+
+            turnUp() {
+                if (this.direction != 20) this.direction = -20;
+            }
+
+            turnRight() {
+                if (this.direction != -1) this.direction = 1;
+            }
+
+            turnDown() {
+                if (this.direction != -20) this.direction = 20;
+            }
+
+            getX(pos) {
+                return pos % this.BLOCK_WIDTH;
+            }
+
+            getY(pos) {
+                return Math.floor(pos / this.BLOCK_WIDTH);
+            }
+
+            isHitTheWall() {
+                let head = this.snakes[0];
+
+                return (this.getY(head) < 0) ||
+                    (this.getY(head) >= this.BLOCK_HEIGHT) ||
+                    (this.direction == 1 && this.getX(head) == 0) ||
+                    (this.direction == -1 && this.getX(head) == 19) ||
+                    (this.snakes.indexOf(head, 1) > 0);
+            }
+
+            caculateNextPos(pos, direction) {
+                return pos + direction;
+            }
+
+            moveSnake(direction) {
+                let head = this.snakes[0];
+                let newHead = this.caculateNextPos(head, direction);
+                this.snakes.unshift(newHead);
+                return newHead;
+            }
+
+            isInSnake(pos) {
+                return this.snakes.indexOf(pos) > 0;
+            }
+
+            getNewRandomFoodPos() {
+                while (true) {
+                    let randPos = Math.random() * 400;
+                    randPos = Math.floor(randPos);
+
+                    if (!this.isInSnake(randPos)) {
+                        return randPos;
+                    }
+                };
+            }
+
+            drawBackgraound() {
+                for (let i = 0; i < this.BLOCK_WIDTH * this.BLOCK_HEIGHT; i++) {
+                    this.drawItem(i, "Black");
+                }
+            }
+
+            drawFood() {
+                this.drawItem(this.foodPos, "Yellow");
+            }
+
+            drawSnake() {
+                for (let i in this.snakes) {
+                    let pos = this.snakes[i];
+                    this.drawItem(pos, "Green");
+                }
+            }
+
+            draw() {
+                this.drawBackgraound();
+                this.drawFood();
+                this.drawSnake();
+            }
+
+
+            isHitPos(pos) {
+                return this.snakes[0] === pos;
+            }
+
+
+            process() {
+                this.moveSnake(this.direction);
+
+                if (this.isHitTheWall()) {
+                    return alert("GAME OVER");
+                }
+
+                if (this.isHitPos(this.foodPos)) {
+                    this.foodPos = this.getNewRandomFoodPos();
+                } else {
+                    this.snakes.pop();
+                }
+
+                this.draw();
+            }
         }
 
-        function turnLeft(){
-            if(direction != 1)direction = -1;
-        }
-        function turnUp(){
-            if(direction != 20)direction = -20;
-        }
-        function turnRight(){
-            if(direction != -1)direction = 1;
-        }
-        function turnDown(){
-            if(direction != -20)direction = 20;
-        }
+        let snakeGame = new SnakeGame(20,20);
 
         document.onkeydown = function (e) {
-           const KEY_LEFT = 37,
-              KEY_UP = 38,
-              KEY_RIGHT = 39,
-              KEY_DONW = 40;
+            const KEY_LEFT = 37,
+                KEY_UP = 38,
+                KEY_RIGHT = 39,
+                KEY_DONW = 40;
 
-            switch(e.keyCode){
+            switch (e.keyCode) {
                 case KEY_LEFT:
-                    return turnLeft();
+                    return snakeGame.turnLeft();
                 case KEY_UP:
-                    return turnUp();
+                    return snakeGame.turnUp();
                 case KEY_RIGHT:
-                    return turnRight();
+                    return snakeGame.turnRight();
                 case KEY_DONW:
-                    return turnDown();
+                    return snakeGame.turnDown();
                 default:
-                    return;               
+                    return;
             }
         };
 
-        function getX(pos){
-            return pos % BLOCK_WIDTH;
-        }
-
-        function getY(pos){
-            return Math.floor(pos / BLOCK_WIDTH);
-        }
-
-        function isHitTheWall(){
-            let head = snakes[0];
-
-            return (getY(head) < 0) ||
-                   (getY(head) >= BLOCK_HEIGHT) ||
-                   ( direction == 1 && getX(head) == 0) ||
-                   (direction == -1 && getX(head) == 19) ||
-                   (snakes.indexOf(head, 1) > 0);
-        }
-
-        function caculateNextPos(pos,direction){
-            return pos + direction;
-        }
-
-        function moveSnake(direction){
-            let head = snakes[0];
-            let newHead = caculateNextPos(head,direction);
-            snakes.unshift(newHead);
-            return newHead;
-        }
-
-        function isInSnake(pos){
-            return snakes.indexOf(pos) > 0;
-        }
-
-        function getNewRandomFoodPos(){
-            while(true){
-                let randPos =  Math.random() * 400;
-                randPos = Math.floor(randPos);
-
-                if(! isInSnake(randPos)){
-                    return randPos;
-                }
-            };
-        }
-
-        function drawBackgraound(){
-            for(let i =0;i<BLOCK_WIDTH * BLOCK_HEIGHT;i++){
-                drawItem(i,"Black");
-            }
-        }
-
-        function drawFood(){
-            drawItem(foodPos,"Yellow");
-        }
-
-        function drawSnake(){
-            for(let i in snakes){
-                let pos =snakes[i];
-                drawItem(pos,"Green");
-            }
-        }
-
-        function draw(){
-            drawBackgraound();
-            drawFood();
-            drawSnake();
-        }
-
-        function isHitPos(pos){
-            return snakes[0] === pos;
-        }
-        
-
         function process() {
-            moveSnake(direction);
-
-            if (isHitTheWall()){
-                return alert("GAME OVER");
-            }
-
-            if (isHitPos(foodPos)) {
-                foodPos = getNewRandomFoodPos();
-            } else{
-                snakes.pop();
-            }
-
-            draw();           
+            snakeGame.process();
         }
         setInterval(process, 130);
     </script>
