@@ -12,7 +12,6 @@
         let snakes = [42, 41],
             foodPos = 43,
             derection = 1,
-            direction = KEY_LEFT,
             ctx = document.getElementById("can").getContext("2d");
 
         function draw(t, c) {
@@ -28,19 +27,15 @@
             switch(e.keyCode){
                 case KEY_LEFT:
                     newDerection = -1;
-                    if(direction !=KEY_RIGHT)direction = KEY_LEFT;
                     break;
                 case KEY_UP:
                     newDerection = -20;
-                    if(direction !=KEY_DONW)direction = KEY_UP;
                     break;
                 case KEY_RIGHT:
                     newDerection = 1;
-                    if(direction !=KEY_LEFT)direction = KEY_RIGHT;
                     break;
                 case KEY_DONW:
                     newDerection = 20;
-                    if(direction !=KEY_UP)direction = KEY_DONW;
                     break;
                 default:
                     return;               
