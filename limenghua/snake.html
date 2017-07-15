@@ -60,8 +60,12 @@
             return newHead;
         }
 
-        function createNewFood(){
-            while (snakes.indexOf(foodPos = ~~(Math.random() * 400)) >= 0);
+        function isInSnake(pos){
+            return snakes.indexOf(pos) > 0;
+        }
+
+        function createNewFood(){            
+            while (isInSnake(foodPos = ~~(Math.random() * 400)));
         }
 
         function process() {
