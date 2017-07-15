@@ -97,6 +97,10 @@
             drawFood();
             drawSnake();
         }
+
+        function isHitPos(pos){
+            return isInSnake(pos);
+        }
         
 
         function process() {
@@ -106,7 +110,7 @@
                 return alert("GAME OVER");
             }
 
-            if (newHead == foodPos) {
+            if (isHitPos(foodPos)) {
                 foodPos = getRandomFoodPos();
             } else{
                 snakes.pop();
