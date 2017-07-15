@@ -75,6 +75,28 @@
             };
         }
 
+        function drawBackgraound(){
+            for(let i =0;i<400;i++){
+                drawItem(i,"Black");
+            }
+        }
+
+        function drawFood(){
+            drawItem(foodPos,"Yellow");
+        }
+
+        function drawSnake(){
+            for(let i in snakes){
+                let pos =snakes[i];
+                drawItem(pos,"Green");
+            }
+        }
+
+        function draw(){
+            drawBackgraound();
+            drawFood();
+            drawSnake();
+        }
         
 
         function process() {
@@ -82,18 +104,15 @@
 
             if (isHitTheWall(newHead)){
                 return alert("GAME OVER");
-            } 
-
-            drawItem(newHead, "Green");
+            }
 
             if (newHead == foodPos) {
                 foodPos = getRandomFoodPos();
-                drawItem(foodPos, "Yellow");
             } else{
-                drawItem(snakes.pop(), "Black");
+                snakes.pop();
             }
 
-           
+            draw();           
         }
         setInterval(process, 130);
     </script>
