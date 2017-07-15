@@ -4,14 +4,16 @@
 <body>
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
     <script>
+        let ctx = document.getElementById("can").getContext("2d");
+        
         const BLOCK_WIDTH = 
               BLOCK_HEIGHT = 20;
         const BLOCK_UNIT_PIXEL = 20;
 
         let snakes = [42, 41],
             foodPos = 43,
-            direction = 1,
-            ctx = document.getElementById("can").getContext("2d");
+            direction = 1;
+            
 
         function drawItem(pos, color) {
             ctx.fillStyle = color;
