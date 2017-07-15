@@ -12,6 +12,7 @@
         let snakes = [42, 41],
             foodPos = 43,
             derection = 1,
+            direction = KEY_LEFT,
             ctx = document.getElementById("can").getContext("2d");
 
         function draw(t, c) {
@@ -21,23 +22,25 @@
             ctx.fillRect(x,y, 18, 18);
         }
 
-        document.onkeydown = function (e) {
-
-            
+        document.onkeydown = function (e) {            
             let newDerection = -1;
 
             switch(e.keyCode){
                 case KEY_LEFT:
                     newDerection = -1;
+                    if(direction !=KEY_RIGHT)direction = KEY_LEFT;
                     break;
                 case KEY_UP:
                     newDerection = -20;
+                    if(direction !=KEY_DONW)direction = KEY_UP;
                     break;
                 case KEY_RIGHT:
                     newDerection = 1;
+                    if(direction !=KEY_LEFT)direction = KEY_RIGHT;
                     break;
                 case KEY_DONW:
                     newDerection = 20;
+                    if(direction !=KEY_UP)direction = KEY_DONW;
                     break;
                 default:
                     return;               
@@ -51,10 +54,13 @@
             return snakes.indexOf(head, 1) > 0 || head < 0 || head > 399 || derection == 1 && head % 20 == 0 || derection == -1 && head % 20 == 19;
         }
 
-        
+        function caculateNextPos(pos,direction){
+            return pos + direction;
+        }
 
         function moveSnake(direction){
-            let newHead = snakes[0] + direction;
+            let head = snakes[0];
+            let newHead = caculateNextPos(head,direction);
             snakes.unshift(newHead);
             return newHead;
         }
