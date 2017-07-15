@@ -64,8 +64,15 @@
             return snakes.indexOf(pos) > 0;
         }
 
-        function createNewFood(){            
-            while (isInSnake(foodPos = ~~(Math.random() * 400)));
+        function getRandomFoodPos(){
+            while(true){
+                let randPos =  Math.random() * 400;
+                randPos = Math.floor(randPos);
+
+                if(! isInSnake(randPos)){
+                    return randPos;
+                }
+            };
         }
 
         function process() {
@@ -78,7 +85,7 @@
             draw(newHead, "Green");
 
             if (newHead == foodPos) {
-                createNewFood();
+                foodPos = getRandomFoodPos();
                 draw(foodPos, "Yellow");
             } else{
                 draw(snakes.pop(), "Black");
