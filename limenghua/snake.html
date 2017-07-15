@@ -14,10 +14,10 @@
             direction = 1,
             ctx = document.getElementById("can").getContext("2d");
 
-        function draw(t, c) {
-            ctx.fillStyle = c;
-            let x = t % 20 * 20 + 1,
-                y =  ~~(t / 20) * 20 + 1;
+        function drawItem(pos, color) {
+            ctx.fillStyle = color;
+            let x = pos % 20 * 20 + 1,
+                y =  ~~(pos / 20) * 20 + 1;
             ctx.fillRect(x,y, 18, 18);
         }
 
@@ -75,6 +75,8 @@
             };
         }
 
+        
+
         function process() {
             let newHead = moveSnake(direction);
 
@@ -82,13 +84,13 @@
                 return alert("GAME OVER");
             } 
 
-            draw(newHead, "Green");
+            drawItem(newHead, "Green");
 
             if (newHead == foodPos) {
                 foodPos = getRandomFoodPos();
-                draw(foodPos, "Yellow");
+                drawItem(foodPos, "Yellow");
             } else{
-                draw(snakes.pop(), "Black");
+                drawItem(snakes.pop(), "Black");
             }
 
            
