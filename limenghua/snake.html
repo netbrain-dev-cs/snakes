@@ -20,32 +20,37 @@
             ctx.fillRect(x,y, 18, 18);
         }
 
+        function turnLeft(){
+            if(direction != 1)direction = -1;
+        }
+        function turnUp(){
+            if(direction != 20)direction = -20;
+        }
+        function turnRight(){
+            if(direction != -1)direction = 1;
+        }
+        function turnDown(){
+            if(direction != -20)direction = 20;
+        }
+
         document.onkeydown = function (e) {
            const KEY_LEFT = 37,
               KEY_UP = 38,
               KEY_RIGHT = 39,
               KEY_DONW = 40;
-            let newDerection = -1;
 
             switch(e.keyCode){
                 case KEY_LEFT:
-                    newDerection = -1;
-                    break;
+                    return turnLeft();
                 case KEY_UP:
-                    newDerection = -BLOCK_WIDTH;
-                    break;
+                    return turnUp();
                 case KEY_RIGHT:
-                    newDerection = 1;
-                    break;
+                    return turnRight();
                 case KEY_DONW:
-                    newDerection = BLOCK_WIDTH;
-                    break;
+                    return turnDown();
                 default:
                     return;               
             }
-
-            if(newDerection == -direction)return;
-            direction = newDerection;
         };
 
         function getX(pos){
