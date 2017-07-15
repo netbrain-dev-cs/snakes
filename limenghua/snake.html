@@ -4,7 +4,12 @@
 <body>
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
     <script>
-        var snakes = [42, 41],
+        const KEY_LEFT = 37,
+              KEY_UP = 38,
+              KEY_RIGHT = 39,
+              KEY_DONW = 40;
+
+        let snakes = [42, 41],
             foodPos = 43,
             derection = 1,
             ctx = document.getElementById("can").getContext("2d");
@@ -17,10 +22,7 @@
         }
 
         document.onkeydown = function (e) {
-            const KEY_LEFT = 37,
-                 KEY_UP = 38,
-                 KEY_RIGHT = 39,
-                 KEY_DONW = 40;
+
             
             let newDerection = -1;
 
