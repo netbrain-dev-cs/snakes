@@ -4,11 +4,6 @@
 <body>
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
     <script>
-        const KEY_LEFT = 37,
-              KEY_UP = 38,
-              KEY_RIGHT = 39,
-              KEY_DONW = 40;
-
         const BLOCK_WIDTH = 
               BLOCK_HEIGHT = 20;
         const BLOCK_UNIT_PIXEL = 20;
@@ -25,7 +20,11 @@
             ctx.fillRect(x,y, 18, 18);
         }
 
-        document.onkeydown = function (e) {            
+        document.onkeydown = function (e) {
+           const KEY_LEFT = 37,
+              KEY_UP = 38,
+              KEY_RIGHT = 39,
+              KEY_DONW = 40;
             let newDerection = -1;
 
             switch(e.keyCode){
