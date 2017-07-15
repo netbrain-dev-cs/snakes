@@ -17,24 +17,24 @@
         }
 
         document.onkeydown = function (e) {
-            const CODE_LEFT = 37,
-                 CODE_UP = 38,
-                 CODE_RIGHT = 39,
-                 CODE_DONW = 40;
+            const KEY_LEFT = 37,
+                 KEY_UP = 38,
+                 KEY_RIGHT = 39,
+                 KEY_DONW = 40;
             
             let newDerection = -1;
 
             switch(e.keyCode){
-                case CODE_LEFT:
+                case KEY_LEFT:
                     newDerection = -1;
                     break;
-                case CODE_UP:
+                case KEY_UP:
                     newDerection = -20;
                     break;
-                case CODE_RIGHT:
+                case KEY_RIGHT:
                     newDerection = 1;
                     break;
-                case CODE_DONW:
+                case KEY_DONW:
                     newDerection = 20;
                     break;
                 default:
