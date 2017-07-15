@@ -60,6 +60,10 @@
             return newHead;
         }
 
+        function createNewFood(){
+            while (snakes.indexOf(foodPos = ~~(Math.random() * 400)) >= 0);
+        }
+
         function process() {
             let newHead = moveSnake(direction);
 
@@ -70,7 +74,7 @@
             draw(newHead, "Green");
 
             if (newHead == foodPos) {
-                while (snakes.indexOf(foodPos = ~~(Math.random() * 400)) >= 0);
+                createNewFood();
                 draw(foodPos, "Yellow");
             } else{
                 draw(snakes.pop(), "Black");
