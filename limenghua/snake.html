@@ -49,13 +49,21 @@
             direction = newDerection;
         };
 
+        function getX(pos){
+            return pos % BLOCK_WIDTH;
+        }
+
+        function getY(pos){
+            return Math.floor(pos / BLOCK_WIDTH);
+        }
+
         function isHitTheWall(){
             let head = snakes[0];
 
-            return (head < 0) ||
-                   (head > 399) ||
-                   ( direction == 1 && head % BLOCK_WIDTH == 0) ||
-                   (direction == -1 && head % BLOCK_WIDTH == 19) ||
+            return (getY(head) < 0) ||
+                   (getY(head) >= BLOCK_HEIGHT) ||
+                   ( direction == 1 && getX(head) == 0) ||
+                   (direction == -1 && getX(head) == 19) ||
                    (snakes.indexOf(head, 1) > 0);
         }
 
