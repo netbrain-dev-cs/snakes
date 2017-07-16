@@ -17,6 +17,12 @@
                 this.direction = 1;
             }
 
+            run(){
+                setInterval(()=>{
+                    this.process();
+                }, 130);
+            }
+
             process() {
                 this.moveSnake(this.direction);
 
@@ -129,7 +135,7 @@
         }
 
         let snakeGame = new SnakeGame(20, 20);
-
+        
         document.onkeydown = function (e) {
             const KEY_LEFT = 37,
                 KEY_UP = 38,
@@ -150,10 +156,7 @@
             }
         };
 
-        function process() {
-            snakeGame.process();
-        }
-        setInterval(process, 130);
+        snakeGame.run();
     </script>
 </body>
 
