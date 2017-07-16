@@ -6,7 +6,7 @@
     <script src=snake.js></script>
     <script>
         let ctx = document.getElementById("can").getContext("2d");
-        let snakeGame = new SnakeGame(ctx,20, 20);
+        let snakeGame = new SnakeGame(ctx);
         document.onkeydown = snakeGame.onkeydown.bind(snakeGame);        
         snakeGame.run();
     </script>

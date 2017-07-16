@@ -1,8 +1,10 @@
-class SnakeGame {
-    constructor(contex, boardWitdth, unitPixel) {
-        this.BLOCK_WIDTH = boardWitdth;
+
+class SnakeGame {  
+    
+    constructor(contex) {
+        this.BLOCK_WIDTH = 20;
         this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
-        this.BLOCK_UNIT_PIXEL = unitPixel;
+        this.BLOCK_UNIT_PIXEL = 20;
 
         this.snakes = [42, 41];
         this.foodPos = 43;
