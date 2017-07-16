@@ -7,7 +7,7 @@
         let ctx = document.getElementById("can").getContext("2d");
 
         class SnakeGame {
-            constructor(boardWitdth, unitPixel) {
+            constructor(contex,boardWitdth, unitPixel) {
                 this.BLOCK_WIDTH = boardWitdth;
                 this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
                 this.BLOCK_UNIT_PIXEL = unitPixel;
@@ -15,6 +15,8 @@
                 this.snakes = [42, 41];
                 this.foodPos = 43;
                 this.direction = 1;
+
+                this.contex = contex;
             }
 
             run() {
@@ -84,10 +86,10 @@
             }
 
             drawItem(pos, color) {
-                ctx.fillStyle = color;
+                this.contex.fillStyle = color;
                 let x = this.getX(pos) * this.BLOCK_UNIT_PIXEL + 1,
                     y = this.getY(pos) * this.BLOCK_UNIT_PIXEL + 1;
-                ctx.fillRect(x, y, 18, 18);
+                this.contex.fillRect(x, y, 18, 18);
             }
 
             isInSnake(pos) {
@@ -154,9 +156,8 @@
             }
         }
 
-        let snakeGame = new SnakeGame(20, 20);
-        document.onkeydown = snakeGame.onkeydown.bind(snakeGame);
-
+        let snakeGame = new SnakeGame(ctx,20, 20);
+        document.onkeydown = snakeGame.onkeydown.bind(snakeGame);        
         snakeGame.run();
     </script>
 </body>
