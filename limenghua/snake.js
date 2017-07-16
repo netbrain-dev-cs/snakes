@@ -110,7 +110,7 @@ class SnakeGame {
     }
 
     turnUp() {
-        if (this.direction != 20) this.direction = -20;
+        if (this.direction != this.BLOCK_WIDTH) this.direction = -this.BLOCK_WIDTH;
     }
 
     turnRight() {
@@ -118,7 +118,7 @@ class SnakeGame {
     }
 
     turnDown() {
-        if (this.direction != -20) this.direction = 20;
+        if (this.direction != -this.BLOCK_WIDTH) this.direction = this.BLOCK_WIDTH;
     }
 
     getX(pos) {
