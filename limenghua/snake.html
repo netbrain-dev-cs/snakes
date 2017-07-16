@@ -17,8 +17,8 @@
                 this.direction = 1;
             }
 
-            run(){
-                setInterval(()=>{
+            run() {
+                setInterval(() => {
                     this.process();
                 }, 130);
             }
@@ -132,29 +132,30 @@
             caculateNextPos(pos, direction) {
                 return pos + direction;
             }
+
+            onkeydown(e) {
+                const KEY_LEFT = 37,
+                    KEY_UP = 38,
+                    KEY_RIGHT = 39,
+                    KEY_DONW = 40;
+
+                switch (e.keyCode) {
+                    case KEY_LEFT:
+                        return this.turnLeft();
+                    case KEY_UP:
+                        return this.turnUp();
+                    case KEY_RIGHT:
+                        return this.turnRight();
+                    case KEY_DONW:
+                        return this.turnDown();
+                    default:
+                        return;
+                }
+            }
         }
 
         let snakeGame = new SnakeGame(20, 20);
-        
-        document.onkeydown = function (e) {
-            const KEY_LEFT = 37,
-                KEY_UP = 38,
-                KEY_RIGHT = 39,
-                KEY_DONW = 40;
-
-            switch (e.keyCode) {
-                case KEY_LEFT:
-                    return snakeGame.turnLeft();
-                case KEY_UP:
-                    return snakeGame.turnUp();
-                case KEY_RIGHT:
-                    return snakeGame.turnRight();
-                case KEY_DONW:
-                    return snakeGame.turnDown();
-                default:
-                    return;
-            }
-        };
+        document.onkeydown = snakeGame.onkeydown.bind(snakeGame);
 
         snakeGame.run();
     </script>
