@@ -38,8 +38,12 @@ class SnakeGame {
     moveSnake(direction) {
         let head = this.snakes[0];
         let newHead = this.caculateNextPos(head, direction);
-        this.snakes.unshift(newHead);
+        this.addNewHead(newHead);
         return newHead;
+    }
+
+    addNewHead(pos){
+        this.snakes.unshift(pos);
     }
 
     isHitTheWall() {
