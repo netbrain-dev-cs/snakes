@@ -106,19 +106,23 @@ class SnakeGame {
     }
 
     turnLeft() {
-        if (this.direction != 1) this.direction = -1;
+        if (this.getRealDirection() != 1) this.direction = -1;
     }
 
     turnUp() {
-        if (this.direction != this.BLOCK_WIDTH) this.direction = -this.BLOCK_WIDTH;
+        if (this.getRealDirection() != this.BLOCK_WIDTH) this.direction = -this.BLOCK_WIDTH;
     }
 
     turnRight() {
-        if (this.direction != -1) this.direction = 1;
+        if (this.getRealDirection() != -1) this.direction = 1;
     }
 
     turnDown() {
-        if (this.direction != -this.BLOCK_WIDTH) this.direction = this.BLOCK_WIDTH;
+        if (this.getRealDirection() != -this.BLOCK_WIDTH) this.direction = this.BLOCK_WIDTH;
+    }
+
+    getRealDirection(){
+        return this.snakes[0] - this.snakes[1];
     }
 
     getX(pos) {
