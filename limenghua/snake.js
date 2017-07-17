@@ -14,9 +14,7 @@ class SnakeGame {
     }
 
     run() {
-        setInterval(() => {
-            this.process();
-        }, 130);
+        this.process();        
     }
 
     process() {
@@ -33,6 +31,8 @@ class SnakeGame {
         }
 
         this.draw();
+
+        setTimeout(this.process.bind(this),130);
     }
 
     moveSnake(direction) {
