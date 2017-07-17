@@ -1,8 +1,8 @@
 
 class SnakeGame {  
     
-    constructor(contex) {
-        this.BLOCK_WIDTH = 20;
+    constructor(contex,width=20) {
+        this.BLOCK_WIDTH = width;
         this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
         this.BLOCK_UNIT_PIXEL = 20;
 
@@ -11,6 +11,8 @@ class SnakeGame {
         this.direction = 1;
 
         this.contex = contex;
+
+        this.score = 0;
     }
 
     run() {
@@ -25,7 +27,7 @@ class SnakeGame {
         }
 
         if (this.isHitPos(this.foodPos)) {
-            this.foodPos = this.getNewRandomFoodPos();
+            this.eatFood(this.foodPos);
         } else {
             this.snakes.pop();
         }
@@ -52,7 +54,7 @@ class SnakeGame {
         return (this.getY(head) < 0) ||
             (this.getY(head) >= this.BLOCK_HEIGHT) ||
             (this.direction == 1 && this.getX(head) == 0) ||
-            (this.direction == -1 && this.getX(head) == 19) ||
+            (this.direction == -1 && this.getX(head) == this.BLOCK_WIDTH-1) ||
             (this.snakes.indexOf(head, 1) > 0);
     }
 
@@ -60,10 +62,16 @@ class SnakeGame {
         return this.snakes[0] === pos;
     }
 
+    eatFood(pos){
+        this.foodPos = this.getNewRandomFoodPos();
+        this.score ++;
+    }
+
     draw() {
         this.drawBackgraound();
         this.drawFood();
         this.drawSnake();
+        this.drawScore();
     }
 
     drawBackgraound() {
@@ -81,6 +89,11 @@ class SnakeGame {
             let pos = this.snakes[i];
             this.drawItem(pos, "Green");
         }
+    }
+
+    drawScore(){
+        ctx.fillStyle="White";
+        this.contex.fillText("Score: " + this.score,20,20);
     }
 
     drawItem(pos, color) {
@@ -155,5 +168,9 @@ class SnakeGame {
             default:
                 return;
         }
+    }
+
+    getScore(){
+        return this.score;
     }
 }
