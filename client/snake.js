@@ -1,3 +1,69 @@
+function caculateNextPos(pos, direction) {
+    return pos + direction;
+}
+
+class Snake{
+    constructor(body,direction){
+        this.body = body;
+        this.direction = direction;
+
+        this.BLOCK_WIDTH = 40;
+        this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
+    }
+
+    getHead(){
+        return this.body[0];
+    }
+
+    moveStep() {
+        let head = this.getHead();
+        let newHead = caculateNextPos(head, this.direction);
+        this.addNewHead(newHead);
+        this.body.pop();
+        return newHead;
+    }
+
+    addNewHead(pos){
+        this.body.unshift(pos);
+    }
+
+    hitSelf(){
+        let head = this.getHead();
+        return this.body.indexOf(head, 1) > 0
+    }
+
+    isHitPos(pos) {
+        return this.getHead() === pos;
+    }
+
+    eatFood(foodPos){
+        this.addNewHead(foodPos);
+    }
+
+    containPos(pos){
+        return this.body.indexOf(pos, 0) > 0;
+    }
+
+    turnLeft() {
+        if (this.getRealDirection() != 1) this.direction = -1;
+    }
+
+    turnUp() {
+        if (this.getRealDirection() != this.BLOCK_WIDTH) this.direction = -this.BLOCK_WIDTH;
+    }
+
+    turnRight() {
+        if (this.getRealDirection() != -1) this.direction = 1;
+    }
+
+    turnDown() {
+        if (this.getRealDirection() != -this.BLOCK_WIDTH) this.direction = this.BLOCK_WIDTH;
+    }
+
+    getRealDirection(){
+        return this.body[0] - this.body[1];
+    }
+}
 
 class SnakeGame {  
     
@@ -6,12 +72,10 @@ class SnakeGame {
         this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
         this.BLOCK_UNIT_PIXEL = 20;
 
-        this.snakes = [42, 41];
+        this.snake = new Snake([42,41],1,this.BLOCK_WIDTH);
+
         this.foodPos = 43;
-        this.direction = 1;
-
         this.contex = contex;
-
         this.score = 0;
     }
 
@@ -20,16 +84,15 @@ class SnakeGame {
     }
 
     process() {
-        this.moveSnake(this.direction);
-
-        if (this.isHitTheWall()) {
-            return alert("GAME OVER");
+        if (this.snake.isHitPos(this.foodPos)) {
+            this.snake.eatFood(this.foodPos);
+            this.createNewFood();
+        } else {
+            this.snake.moveStep();
         }
 
-        if (this.isHitPos(this.foodPos)) {
-            this.eatFood(this.foodPos);
-        } else {
-            this.snakes.pop();
+        if (this.isHitTheWall(this.snake.getHead(),this.snake.direction)) {
+            return alert("GAME OVER");
         }
 
         this.draw();
@@ -37,34 +100,15 @@ class SnakeGame {
         setTimeout(this.process.bind(this),130);
     }
 
-    moveSnake(direction) {
-        let head = this.snakes[0];
-        let newHead = this.caculateNextPos(head, direction);
-        this.addNewHead(newHead);
-        return newHead;
-    }
-
-    addNewHead(pos){
-        this.snakes.unshift(pos);
-    }
-
-    isHitTheWall() {
-        let head = this.snakes[0];
-
+    isHitTheWall(head,direction) {
         return (this.getY(head) < 0) ||
             (this.getY(head) >= this.BLOCK_HEIGHT) ||
-            (this.direction == 1 && this.getX(head) == 0) ||
-            (this.direction == -1 && this.getX(head) == this.BLOCK_WIDTH-1) ||
-            (this.snakes.indexOf(head, 1) > 0);
+            (direction == 1 && this.getX(head) == 0) ||
+            (direction == -1 && this.getX(head) == this.BLOCK_WIDTH-1);
     }
 
-    isHitPos(pos) {
-        return this.snakes[0] === pos;
-    }
-
-    eatFood(pos){
+    createNewFood(pos){
         this.foodPos = this.getNewRandomFoodPos();
-        this.score ++;
     }
 
     draw() {
@@ -85,8 +129,8 @@ class SnakeGame {
     }
 
     drawSnake() {
-        for (let i in this.snakes) {
-            let pos = this.snakes[i];
+        for (let i in this.snake.body) {
+            let pos = this.snake.body[i];
             this.drawItem(pos, "Green");
         }
     }
@@ -104,7 +148,7 @@ class SnakeGame {
     }
 
     isInSnake(pos) {
-        return this.snakes.indexOf(pos) > 0;
+        return this.snake.containPos(pos);
     }
 
     getNewRandomFoodPos() {
@@ -118,36 +162,12 @@ class SnakeGame {
         };
     }
 
-    turnLeft() {
-        if (this.getRealDirection() != 1) this.direction = -1;
-    }
-
-    turnUp() {
-        if (this.getRealDirection() != this.BLOCK_WIDTH) this.direction = -this.BLOCK_WIDTH;
-    }
-
-    turnRight() {
-        if (this.getRealDirection() != -1) this.direction = 1;
-    }
-
-    turnDown() {
-        if (this.getRealDirection() != -this.BLOCK_WIDTH) this.direction = this.BLOCK_WIDTH;
-    }
-
-    getRealDirection(){
-        return this.snakes[0] - this.snakes[1];
-    }
-
     getX(pos) {
         return pos % this.BLOCK_WIDTH;
     }
 
     getY(pos) {
         return Math.floor(pos / this.BLOCK_WIDTH);
-    }
-
-    caculateNextPos(pos, direction) {
-        return pos + direction;
     }
 
     onkeydown(e) {
@@ -158,13 +178,13 @@ class SnakeGame {
 
         switch (e.keyCode) {
             case KEY_LEFT:
-                return this.turnLeft();
+                return this.snake.turnLeft();
             case KEY_UP:
-                return this.turnUp();
+                return this.snake.turnUp();
             case KEY_RIGHT:
-                return this.turnRight();
+                return this.snake.turnRight();
             case KEY_DONW:
-                return this.turnDown();
+                return this.snake.turnDown();
             default:
                 return;
         }
