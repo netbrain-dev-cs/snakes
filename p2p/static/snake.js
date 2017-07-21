@@ -18,6 +18,8 @@ class Snake {
     constructor(body, direction) {
         this.body = body;
         this.direction = direction;
+        
+        this.alive = true;
     }
 
     getHead() {
@@ -71,13 +73,25 @@ class Snake {
     getRealDirection() {
         return this.body[0] - this.body[1];
     }
+
+    isAlive(){
+        return this.alive;
+    }
+
+    die(){
+        this.alive = false;
+    }
+
 }
 
 class SnakeGame {
 
     constructor(contex) {
 
-        this.snakes = [new Snake([42, 41], 1)];
+        this.snakes = [
+                new Snake([42, 41], 1),
+                new Snake([440,441],1)
+            ];
 
         this.foodPos = 43;
         this.contex = contex;
@@ -89,6 +103,8 @@ class SnakeGame {
     }
 
     processOneSnake(snake) {
+        if( ! snake.isAlive())return;
+
         snake.moveStep();
         if (snake.isHitPos(this.foodPos)) {
             this.createNewFood();
@@ -97,16 +113,39 @@ class SnakeGame {
         }
 
         if (this.isHitTheWall(snake)) {
-            return alert("GAME OVER");
+            snake.die();
         }
     }
 
-    process() {
+    processDirections(directions){
+        if(! directions){
+            return;
+        }
+
+        for(let i in directions){
+            if(i >= this.snakes.length){
+                break;
+            }
+
+            this.snakes[i].changeDirection(directions[i]);
+        }
+
+    }
+
+    step(directions){
+        processDirections(directions);
+
         for (let i in this.snakes) {
             this.processOneSnake(this.snakes[i]);
         }
 
         this.draw();
+    }
+
+
+
+    process() {
+        this.step();
 
         setTimeout(this.process.bind(this), 130);
     }
@@ -198,6 +237,18 @@ class SnakeGame {
                 return this.snakes[0].turnRight();
             case KEY_DONW:
                 return this.snakes[0].turnDown();
+            case 65:
+                return this.snakes[1].turnLeft();
+                break;
+            case 68:
+                return this.snakes[1].turnRight();
+                break;
+            case 87:
+                return this.snakes[1].turnUp();
+                break;
+            case 83:
+                return this.snakes[1].turnDown();
+                break;
             default:
                 return;
         }
