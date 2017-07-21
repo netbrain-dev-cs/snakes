@@ -19,8 +19,7 @@ class Snake{
     moveStep() {
         let head = this.getHead();
         let newHead = caculateNextPos(head, this.direction);
-        this.addNewHead(newHead);
-        this.body.pop();
+        this.addNewHead(newHead);        
         return newHead;
     }
 
@@ -37,8 +36,8 @@ class Snake{
         return this.getHead() === pos;
     }
 
-    eatFood(foodPos){
-        this.addNewHead(foodPos);
+    removeTail(){
+        this.body.pop();
     }
 
     containPos(pos){
@@ -50,7 +49,7 @@ class Snake{
     }
 
     turnUp() {
-        if (this.getRealDirection() != this.BLOCK_WIDTH) this.direction = -BLOCK_WIDTH;
+        if (this.getRealDirection() != BLOCK_WIDTH) this.direction = -BLOCK_WIDTH;
     }
 
     turnRight() {
@@ -58,7 +57,7 @@ class Snake{
     }
 
     turnDown() {
-        if (this.getRealDirection() != -this.BLOCK_WIDTH) this.direction = BLOCK_WIDTH;
+        if (this.getRealDirection() != -BLOCK_WIDTH) this.direction = BLOCK_WIDTH;
     }
 
     getRealDirection(){
@@ -70,7 +69,7 @@ class SnakeGame {
     
     constructor(contex) {
 
-        this.snake = new Snake([42,41],1);
+        this.snakes = [new Snake([42,41],1)];
 
         this.foodPos = 43;
         this.contex = contex;
@@ -81,24 +80,38 @@ class SnakeGame {
         this.process();        
     }
 
-    process() {
-        if (this.snake.isHitPos(this.foodPos)) {
-            this.snake.eatFood(this.foodPos);
+    processOneSnake(snake){
+        snake.moveStep();
+        if (snake.isHitPos(this.foodPos)) {            
             this.createNewFood();
         } else {
-            this.snake.moveStep();
+            snake.removeTail();
         }
 
-        if (this.isHitTheWall(this.snake.getHead(),this.snake.direction)) {
+        if (this.isHitTheWall(snake)) {
             return alert("GAME OVER");
         }
+    }
+
+    process() {
+        for(let i in this.snakes){
+            this.processOneSnake(this.snakes[i]);
+        }        
 
         this.draw();
 
         setTimeout(this.process.bind(this),130);
     }
 
-    isHitTheWall(head,direction) {
+    isHitTheWall(snake) {
+        let head = snake.getHead();
+        let direction = snake.direction;
+
+        if(snake.hitSelf()){
+            console.log("hit self");
+            return true;
+        }
+
         return (this.getY(head) < 0) ||
             (this.getY(head) >= BLOCK_HEIGHT) ||
             (direction == 1 && this.getX(head) == 0) ||
@@ -113,7 +126,6 @@ class SnakeGame {
         this.drawBackgraound();
         this.drawFood();
         this.drawSnake();
-        this.drawScore();
     }
 
     drawBackgraound() {
@@ -127,16 +139,15 @@ class SnakeGame {
     }
 
     drawSnake() {
-        for (let i in this.snake.body) {
-            let pos = this.snake.body[i];
-            this.drawItem(pos, "Green");
+        for(let i in this.snakes){
+            let snake = this.snakes[i];
+            for (let j in snake.body) {
+                let pos = snake.body[j];
+                this.drawItem(pos, "Green");
+            }
         }
     }
 
-    drawScore(){
-        ctx.fillStyle="White";
-        this.contex.fillText("Score: " + this.score,20,20);
-    }
 
     drawItem(pos, color) {
         this.contex.fillStyle = color;
@@ -146,7 +157,11 @@ class SnakeGame {
     }
 
     isInSnake(pos) {
-        return this.snake.containPos(pos);
+        for(let i in this.snakes){
+            let snake = this.snakes[i];
+            if(snake.containPos(pos))return true;
+        }
+        return false;
     }
 
     getNewRandomFoodPos() {
@@ -176,19 +191,16 @@ class SnakeGame {
 
         switch (e.keyCode) {
             case KEY_LEFT:
-                return this.snake.turnLeft();
+                return this.snakes[0].turnLeft();
             case KEY_UP:
-                return this.snake.turnUp();
+                return this.snakes[0].turnUp();
             case KEY_RIGHT:
-                return this.snake.turnRight();
+                return this.snakes[0].turnRight();
             case KEY_DONW:
-                return this.snake.turnDown();
+                return this.snakes[0].turnDown();
             default:
                 return;
         }
     }
 
-    getScore(){
-        return this.score;
-    }
 }
