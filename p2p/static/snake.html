@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+
+<body>
+    <canvas id="can" width="800" height="800" style="background:Black"></canvas>
+    <script src=snake.js></script>
+    <script>
+        let ctx = document.getElementById("can").getContext("2d");
+        let snakeGame = new SnakeGame(ctx,40);
+        document.onkeydown = snakeGame.onkeydown.bind(snakeGame);        
+        snakeGame.run();
+    </script>
+</body>
+
+</html>
