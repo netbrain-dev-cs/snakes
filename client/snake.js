@@ -2,13 +2,14 @@ function caculateNextPos(pos, direction) {
     return pos + direction;
 }
 
+const BLOCK_WIDTH = 40;
+const BLOCK_HEIGHT = BLOCK_WIDTH;
+const BLOCK_UNIT_PIXEL = 20;
+
 class Snake{
     constructor(body,direction){
         this.body = body;
         this.direction = direction;
-
-        this.BLOCK_WIDTH = 40;
-        this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
     }
 
     getHead(){
@@ -49,7 +50,7 @@ class Snake{
     }
 
     turnUp() {
-        if (this.getRealDirection() != this.BLOCK_WIDTH) this.direction = -this.BLOCK_WIDTH;
+        if (this.getRealDirection() != this.BLOCK_WIDTH) this.direction = -BLOCK_WIDTH;
     }
 
     turnRight() {
@@ -57,7 +58,7 @@ class Snake{
     }
 
     turnDown() {
-        if (this.getRealDirection() != -this.BLOCK_WIDTH) this.direction = this.BLOCK_WIDTH;
+        if (this.getRealDirection() != -this.BLOCK_WIDTH) this.direction = BLOCK_WIDTH;
     }
 
     getRealDirection(){
@@ -67,12 +68,9 @@ class Snake{
 
 class SnakeGame {  
     
-    constructor(contex,width=20) {
-        this.BLOCK_WIDTH = width;
-        this.BLOCK_HEIGHT = this.BLOCK_WIDTH;
-        this.BLOCK_UNIT_PIXEL = 20;
+    constructor(contex) {
 
-        this.snake = new Snake([42,41],1,this.BLOCK_WIDTH);
+        this.snake = new Snake([42,41],1);
 
         this.foodPos = 43;
         this.contex = contex;
@@ -102,9 +100,9 @@ class SnakeGame {
 
     isHitTheWall(head,direction) {
         return (this.getY(head) < 0) ||
-            (this.getY(head) >= this.BLOCK_HEIGHT) ||
+            (this.getY(head) >= BLOCK_HEIGHT) ||
             (direction == 1 && this.getX(head) == 0) ||
-            (direction == -1 && this.getX(head) == this.BLOCK_WIDTH-1);
+            (direction == -1 && this.getX(head) == BLOCK_WIDTH-1);
     }
 
     createNewFood(pos){
@@ -119,7 +117,7 @@ class SnakeGame {
     }
 
     drawBackgraound() {
-        for (let i = 0; i < this.BLOCK_WIDTH * this.BLOCK_HEIGHT; i++) {
+        for (let i = 0; i < BLOCK_WIDTH * BLOCK_HEIGHT; i++) {
             this.drawItem(i, "Black");
         }
     }
@@ -142,8 +140,8 @@ class SnakeGame {
 
     drawItem(pos, color) {
         this.contex.fillStyle = color;
-        let x = this.getX(pos) * this.BLOCK_UNIT_PIXEL + 1,
-            y = this.getY(pos) * this.BLOCK_UNIT_PIXEL + 1;
+        let x = this.getX(pos) * BLOCK_UNIT_PIXEL + 1,
+            y = this.getY(pos) * BLOCK_UNIT_PIXEL + 1;
         this.contex.fillRect(x, y, 18, 18);
     }
 
@@ -163,11 +161,11 @@ class SnakeGame {
     }
 
     getX(pos) {
-        return pos % this.BLOCK_WIDTH;
+        return pos % BLOCK_WIDTH;
     }
 
     getY(pos) {
-        return Math.floor(pos / this.BLOCK_WIDTH);
+        return Math.floor(pos / BLOCK_WIDTH);
     }
 
     onkeydown(e) {
