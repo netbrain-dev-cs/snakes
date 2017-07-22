@@ -95,8 +95,8 @@ class SnakeGame {
 
         this.foodPos = 43;
         this.contex = contex;
-        this.score = 0;
     }
+
 
     run() {
         this.process();
@@ -133,7 +133,7 @@ class SnakeGame {
     }
 
     step(directions){
-        processDirections(directions);
+        this.processDirections(directions);
 
         for (let i in this.snakes) {
             this.processOneSnake(this.snakes[i]);
