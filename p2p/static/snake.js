@@ -82,24 +82,43 @@ class Snake {
         this.alive = false;
     }
 
+    changeDirection(direction){
+        switch(direction){
+            case 0:
+                this.turnLeft();
+                break;
+            case 1:
+                this.turnUp();
+                break;
+            case 2:
+                this.turnRight();
+                break;
+            case 3:
+                this.turnDown();
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 class SnakeGame {
 
     constructor(contex) {
 
-        this.snakes = [
-                new Snake([42, 41], 1),
-                new Snake([440,441],1)
-            ];
+        this.snakes = [];
 
         this.foodPos = 43;
         this.contex = contex;
+        this.started = false;
     }
 
+    addSnake(body,direction){
+        this.snakes.push(new Snake(body,direction));
+    }
 
-    run() {
-        this.process();
+    start() {
+        this.started =true;
     }
 
     processOneSnake(snake) {
@@ -133,6 +152,9 @@ class SnakeGame {
     }
 
     step(directions){
+        if(! this.started ){
+            return;
+        }
         this.processDirections(directions);
 
         for (let i in this.snakes) {
@@ -142,13 +164,6 @@ class SnakeGame {
         this.draw();
     }
 
-
-
-    process() {
-        this.step();
-
-        setTimeout(this.process.bind(this), 130);
-    }
 
     isHitTheWall(snake) {
         let head = snake.getHead();
@@ -188,9 +203,10 @@ class SnakeGame {
     drawSnake() {
         for (let i in this.snakes) {
             let snake = this.snakes[i];
+            let color = snake.isAlive() ? "Green" : "Red";
             for (let j in snake.body) {
                 let pos = snake.body[j];
-                this.drawItem(pos, "Green");
+                this.drawItem(pos, color);
             }
         }
     }
@@ -220,38 +236,6 @@ class SnakeGame {
                 return randPos;
             }
         };
-    }
-
-    onkeydown(e) {
-        const KEY_LEFT = 37,
-            KEY_UP = 38,
-            KEY_RIGHT = 39,
-            KEY_DONW = 40;
-
-        switch (e.keyCode) {
-            case KEY_LEFT:
-                return this.snakes[0].turnLeft();
-            case KEY_UP:
-                return this.snakes[0].turnUp();
-            case KEY_RIGHT:
-                return this.snakes[0].turnRight();
-            case KEY_DONW:
-                return this.snakes[0].turnDown();
-            case 65:
-                return this.snakes[1].turnLeft();
-                break;
-            case 68:
-                return this.snakes[1].turnRight();
-                break;
-            case 87:
-                return this.snakes[1].turnUp();
-                break;
-            case 83:
-                return this.snakes[1].turnDown();
-                break;
-            default:
-                return;
-        }
     }
 
 }

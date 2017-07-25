@@ -6,9 +6,26 @@
     <script src=snake.js></script>
     <script>
         let ctx = document.getElementById("can").getContext("2d");
-        let snakeGame = new SnakeGame(ctx,40);
-        document.onkeydown = snakeGame.onkeydown.bind(snakeGame);        
-        snakeGame.run();
+        let snakeGame = new SnakeGame(ctx, 40);
+        let directions = [0];
+        document.onkeydown = function (e) {
+            switch (e.keyCode) {
+                case 37:
+                    return directions[0]=0;
+                case 38:
+                    return directions[0]=1;
+                case 39:
+                    return directions[0]=2;
+                case 40:
+                    return directions[0]=3;
+            };
+        };
+
+        snakeGame.start();
+        snakeGame.addSnake([42, 41], 1);
+        setInterval(() => {
+            snakeGame.step(directions);
+        }, 130);
     </script>
 </body>
 
