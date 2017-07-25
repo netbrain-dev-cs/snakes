@@ -18,7 +18,7 @@ class Snake {
     constructor(body, direction) {
         this.body = body;
         this.direction = direction;
-        
+
         this.alive = true;
     }
 
@@ -74,16 +74,16 @@ class Snake {
         return this.body[0] - this.body[1];
     }
 
-    isAlive(){
+    isAlive() {
         return this.alive;
     }
 
-    die(){
+    die() {
         this.alive = false;
     }
 
-    changeDirection(direction){
-        switch(direction){
+    changeDirection(direction) {
+        switch (direction) {
             case 0:
                 this.turnLeft();
                 break;
@@ -113,16 +113,19 @@ class SnakeGame {
         this.started = false;
     }
 
-    addSnake(body,direction){
-        this.snakes.push(new Snake(body,direction));
+    addSnake(body, direction) {
+        this.snakes.push(new Snake(body, direction));
     }
 
     start() {
-        this.started =true;
+        this.started = true;
+    }
+    pause(){
+        this.started = false;
     }
 
     processOneSnake(snake) {
-        if( ! snake.isAlive())return;
+        if (!snake.isAlive()) return;
 
         snake.moveStep();
         if (snake.isHitPos(this.foodPos)) {
@@ -136,13 +139,13 @@ class SnakeGame {
         }
     }
 
-    processDirections(directions){
-        if(! directions){
+    processDirections(directions) {
+        if (!directions) {
             return;
         }
 
-        for(let i in directions){
-            if(i >= this.snakes.length){
+        for (let i in directions) {
+            if (i >= this.snakes.length) {
                 break;
             }
 
@@ -151,14 +154,13 @@ class SnakeGame {
 
     }
 
-    step(directions){
-        if(! this.started ){
-            return;
-        }
-        this.processDirections(directions);
+    step(directions) {
+        if (this.started) {
+            this.processDirections(directions);
 
-        for (let i in this.snakes) {
-            this.processOneSnake(this.snakes[i]);
+            for (let i in this.snakes) {
+                this.processOneSnake(this.snakes[i]);
+            }
         }
 
         this.draw();
