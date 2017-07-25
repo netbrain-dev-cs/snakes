@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
   var COLORS = [
@@ -16,12 +16,22 @@ $(function() {
   var $chatPage = $('.chat.page'); // The chatroom page
 
   // Prompt for setting a username
-  var username='none';
+  var username = 'none';
 
   var socket = io();
 
+  let ctx = document.getElementById("can").getContext("2d");
+  let snakeGame = new SnakeGame(ctx, 40);
+  snakeGame.addSnake([42, 41], 1);
+  snakeGame.addSnake([420, 421], 1);
+  let directions = [1,1];
+  setInterval(() => {
+    snakeGame.step(directions);
+  }, 130);
+  snakeGame.start();
+
   // Sends a chat message
-  function sendMessage () {
+  function sendMessage() {
     var message = $inputMessage.val();
     // Prevent markup from being injected into the message
     message = cleanInput(message);
@@ -39,7 +49,7 @@ $(function() {
 
 
   // Adds the visual chat message to the message list
-  function addChatMessage (data, options) {
+  function addChatMessage(data, options) {
     var $messageBodyDiv = $('<span class="messageBody">')
       .text(data.message);
 
@@ -54,7 +64,7 @@ $(function() {
   // options.fade - If the element should fade-in (default = true)
   // options.prepend - If the element should prepend
   //   all other messages (default = false)
-  function addMessageElement (el, options) {
+  function addMessageElement(el, options) {
     var $el = $(el);
 
     // Setup default options
@@ -81,18 +91,27 @@ $(function() {
   }
 
   // Prevents input from having injected markup
-  function cleanInput (input) {
+  function cleanInput(input) {
     return $('<div/>').text(input).text();
   }
 
-  
+
   // Keyboard events
 
   $window.keydown(function (event) {
     // When the client hits ENTER on their keyboard
     if (event.which === 13) {
-       sendMessage();
+      sendMessage();
     }
+
+    keyCode = event.which - 37;
+
+    if (keyCode >= 0 && keyCode <= 3) {
+      socket.emit('keydown', {
+        key: keyCode
+      });
+    }
+
   });
 
   // Whenever the server emits 'new message', update the chat body
