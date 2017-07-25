@@ -133,7 +133,7 @@ class SnakeGame {
     }
 
     step(directions){
-        processDirections(directions);
+        this.processDirections(directions);
 
         for (let i in this.snakes) {
             this.processOneSnake(this.snakes[i]);
