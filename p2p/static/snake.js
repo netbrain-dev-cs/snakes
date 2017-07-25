@@ -95,8 +95,8 @@ class SnakeGame {
 
         this.foodPos = 43;
         this.contex = contex;
-        this.score = 0;
     }
+
 
     run() {
         this.process();
