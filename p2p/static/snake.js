@@ -111,6 +111,7 @@ class SnakeGame {
         this.foodPos = 43;
         this.contex = contex;
         this.started = false;
+        this.isMaster = false;
     }
 
     addSnake(body, direction) {
@@ -125,6 +126,10 @@ class SnakeGame {
         this.started = false;
     }
 
+    toMaster(){
+        this.isMaster = true;
+    }
+
     processSnakes() {
         for (let i in this.snakes) {
             this.processOneSnake(this.snakes[i]);
@@ -136,7 +141,8 @@ class SnakeGame {
 
         snake.moveStep();
         if (snake.isHitPos(this.foodPos)) {
-            this.createNewFood();
+            let newFood = this.getNewRandomFoodPos();
+            this.createNewFood(newFood);
         } else {
             snake.removeTail();
         }
@@ -186,7 +192,7 @@ class SnakeGame {
     }
 
     createNewFood(pos) {
-        this.foodPos = this.getNewRandomFoodPos();
+        this.foodPos = pos;
     }
 
     draw() {

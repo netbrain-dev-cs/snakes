@@ -125,4 +125,8 @@ $(function () {
     snakeGame.step(data.body);
   });
 
+  socket.on('to master',function(data){
+    snakeGame.toMaster();
+  })
+
 });

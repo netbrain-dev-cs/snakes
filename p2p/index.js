@@ -76,6 +76,7 @@ io.on('connection', function (socket) {
     if(data === '$start'){
       if(game.state === 'init'){
         startGame();
+        socket.emit('to master');
       }
       return;
     }
