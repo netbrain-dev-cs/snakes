@@ -119,9 +119,16 @@ class SnakeGame {
 
     start() {
         this.started = true;
+        this.draw();
     }
-    pause(){
+    pause() {
         this.started = false;
+    }
+
+    processSnakes() {
+        for (let i in this.snakes) {
+            this.processOneSnake(this.snakes[i]);
+        }
     }
 
     processOneSnake(snake) {
@@ -151,21 +158,17 @@ class SnakeGame {
 
             this.snakes[i].changeDirection(directions[i]);
         }
-
     }
 
     step(directions) {
         if (this.started) {
             this.processDirections(directions);
 
-            for (let i in this.snakes) {
-                this.processOneSnake(this.snakes[i]);
-            }
+            this.processSnakes();
         }
 
         this.draw();
     }
-
 
     isHitTheWall(snake) {
         let head = snake.getHead();

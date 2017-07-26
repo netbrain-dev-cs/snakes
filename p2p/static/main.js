@@ -21,14 +21,8 @@ $(function () {
   var socket = io();
 
   let ctx = document.getElementById("can").getContext("2d");
+  
   let snakeGame = new SnakeGame(ctx, 40);
-  snakeGame.addSnake([42, 41], 1);
-  snakeGame.addSnake([420, 421], 1);
-  let directions = [1,1];
-  setInterval(() => {
-    snakeGame.step(directions);
-  }, 130);
-  snakeGame.start();
 
   // Sends a chat message
   function sendMessage() {
@@ -117,6 +111,18 @@ $(function () {
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     addChatMessage(data);
+  });
+
+  socket.on('start game',function(data){
+    let snakes = data.body;
+    for(let i in snakes){
+      snakeGame.addSnake(snakes[i].body,snakes[i].direction);
+    }
+    snakeGame.start();
+  });
+
+  socket.on('step game',function(data){
+    snakeGame.step(data.body);
   });
 
 });
