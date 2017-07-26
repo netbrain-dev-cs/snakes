@@ -22,7 +22,7 @@ $(function () {
 
   let ctx = document.getElementById("can").getContext("2d");
   
-  let snakeGame = new SnakeGame(ctx, 40);
+  let snakeGame = new SnakeGame(ctx, socket);
 
   // Sends a chat message
   function sendMessage() {
@@ -105,28 +105,9 @@ $(function () {
         key: keyCode
       });
     }
-
   });
-
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     addChatMessage(data);
   });
-
-  socket.on('start game',function(data){
-    let snakes = data.body;
-    for(let i in snakes){
-      snakeGame.addSnake(snakes[i].body,snakes[i].direction);
-    }
-    snakeGame.start();
-  });
-
-  socket.on('step game',function(data){
-    snakeGame.step(data.body);
-  });
-
-  socket.on('to master',function(data){
-    snakeGame.toMaster();
-  })
-
 });

@@ -66,6 +66,8 @@ function clearGame(){
   game.numUsers = 0;
   game.directions = [];
   game.waitStart={};
+
+  console.log('game reset');
 }
 
 
@@ -93,8 +95,11 @@ io.on('connection', function (socket) {
       let id = socket.id;
       let index = game.keyIndex[id];
       game.directions[index]=key;
-      console.log(socket.id + ":keydown-"+key);
     }
+  });
+
+  socket.on('add food',function(data){
+    io.emit('add food',data);
   });
 
   // when the user disconnects.. perform this

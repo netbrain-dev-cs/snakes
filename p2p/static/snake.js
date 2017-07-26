@@ -104,14 +104,39 @@ class Snake {
 
 class SnakeGame {
 
-    constructor(contex) {
+    constructor(contex, socket) {
+        this.contex = contex;
+        this.socket = socket;
 
         this.snakes = [];
-
         this.foodPos = 43;
-        this.contex = contex;
+
         this.started = false;
         this.isMaster = false;
+
+        this.registerHandler();
+    }
+
+    registerHandler() {
+        this.socket.on('start game', (data) => {
+            let snakes = data.body;
+            for (let i in snakes) {
+                this.addSnake(snakes[i].body, snakes[i].direction);
+            }
+            this.start();
+        });
+
+        this.socket.on('step game', (data) => {
+            this.step(data.body);
+        });
+
+        this.socket.on('to master', (data)=> {
+            this.toMaster();
+        });
+
+        this.socket.on('add food',(data)=>{
+            this.foodPos=data.foodPos;
+        });
     }
 
     addSnake(body, direction) {
@@ -126,7 +151,7 @@ class SnakeGame {
         this.started = false;
     }
 
-    toMaster(){
+    toMaster() {
         this.isMaster = true;
     }
 
@@ -140,9 +165,9 @@ class SnakeGame {
         if (!snake.isAlive()) return;
 
         snake.moveStep();
-        if (snake.isHitPos(this.foodPos)) {
-            let newFood = this.getNewRandomFoodPos();
-            this.createNewFood(newFood);
+        if (snake.isHitPos(this.foodPos)) {            
+            this.foodPos = -1;
+            this.createNewFood();
         } else {
             snake.removeTail();
         }
@@ -192,7 +217,9 @@ class SnakeGame {
     }
 
     createNewFood(pos) {
-        this.foodPos = pos;
+        if(! this.isMaster)return;
+        let newFood = this.getNewRandomFoodPos();
+        this.socket.emit('add food',{foodPos:newFood});
     }
 
     draw() {
