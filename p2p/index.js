@@ -75,7 +75,7 @@ io.on('connection', function (socket) {
   numUsers ++;
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
-    if(data === '$start'){
+    if(data.indexOf('$start') >= 0){
       if(game.state === 'init'){
         startGame();
         socket.emit('to master');

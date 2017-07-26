@@ -12,6 +12,7 @@ $(function () {
   var $usernameInput = $('.usernameInput'); // Input for username
   var $messages = $('.messages'); // Messages area
   var $inputMessage = $('.inputMessage'); // Input message input box
+  var $inputName = $('.inputName');
 
   var $chatPage = $('.chat.page'); // The chatroom page
 
@@ -27,8 +28,10 @@ $(function () {
   // Sends a chat message
   function sendMessage() {
     var message = $inputMessage.val();
+    var username = $inputName.val();
     // Prevent markup from being injected into the message
     message = cleanInput(message);
+    message = username + ":" + message;
     // if there is a non-empty message and a socket connection
     if (message) {
       $inputMessage.val('');

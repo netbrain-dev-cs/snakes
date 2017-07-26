@@ -134,6 +134,19 @@ ul {
 
 /* Input */
 
+.inputName {
+  border: 10px solid #000;
+  bottom: 0;
+  height: 60px;
+  left: 0;
+  outline: none;
+  padding-left: 10px;
+  float: left;
+  right: 0;
+  width: 20%;
+}
+
+
 .inputMessage {
   border: 10px solid #000;
   bottom: 0;
@@ -141,7 +154,7 @@ ul {
   left: 0;
   outline: none;
   padding-left: 10px;
-  position: absolute;
+  float: left;
   right: 0;
-  width: 100%;
+  width: 80%;
 }
