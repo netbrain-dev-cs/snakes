@@ -73,13 +73,19 @@ class Snake {
     }
 }
 
+class Food{
+    constructor(pos,type){
+        this.pos = pos;
+    }
+}
+
 class SnakeGame {
 
     constructor(contex) {
 
         this.snakes = [new Snake([42, 41], 1)];
 
-        this.foodPos = 43;
+        this.foodPos = [43,93];
         this.contex = contex;
         this.score = 0;
     }
@@ -88,11 +94,20 @@ class SnakeGame {
         this.process();
     }
 
+    tryEatFood(snake){
+        for(let i in this.foodPos){
+            if(snake.isHitPos(this.foodPos[i])){
+                delete this.foodPos[i];
+                this.foodPos[i]=this.getNewRandomFoodPos();
+                return true;
+            }
+        }
+        return false;
+    }
+
     processOneSnake(snake) {
         snake.moveStep();
-        if (snake.isHitPos(this.foodPos)) {
-            this.createNewFood();
-        } else {
+        if (! this.tryEatFood(snake)) {
             snake.removeTail();
         }
 
@@ -126,9 +141,6 @@ class SnakeGame {
             (direction == -1 && getX(head) == BLOCK_WIDTH - 1);
     }
 
-    createNewFood(pos) {
-        this.foodPos = this.getNewRandomFoodPos();
-    }
 
     draw() {
         this.drawBackgraound();
@@ -143,7 +155,10 @@ class SnakeGame {
     }
 
     drawFood() {
-        this.drawItem(this.foodPos, "Yellow");
+        for(let i in this.foodPos){
+            this.drawItem(this.foodPos[i], "Yellow");
+        }
+        
     }
 
     drawSnake() {
@@ -177,9 +192,10 @@ class SnakeGame {
             let randPos = Math.random() * 400;
             randPos = Math.floor(randPos);
 
-            if (!this.isInSnake(randPos)) {
-                return randPos;
-            }
+            if(this.foodPos.indexOf(randPos)>=0)continue;
+            if (this.isInSnake(randPos))continue;
+
+            return randPos; 
         };
     }
 
