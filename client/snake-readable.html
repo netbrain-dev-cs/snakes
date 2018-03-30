@@ -17,7 +17,7 @@
             const POSITIONS_LENGTH = WIDTH * HEIGHT;
             const MAX_POSITIONS_INDEX = POSITIONS_LENGTH - 1;
 
-            const stepDic = {
+            const KEYCODE_STEP_MAP = {
                 '37': -1, // left
                 '38': -WIDTH, // top
                 '39': 1, // right
@@ -40,7 +40,7 @@
             return void(0);
 
             function updateMoveStep(keyCode) {
-                var newStep = stepDic[keyCode];
+                var newStep = KEYCODE_STEP_MAP[keyCode];
                 moveStep = newStep || moveStep;
             }
 
