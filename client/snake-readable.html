@@ -33,10 +33,8 @@
             }
 
             document.onkeydown = function (e) {
-                var newStep = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep;
-                moveStep = snake[1] - snake[0] == newStep ?
-                    moveStep :
-                    newStep
+                var moveStep = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37];
+                moveStep = newStep || moveStep;
             };
 
             ! function () {
