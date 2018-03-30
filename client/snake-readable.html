@@ -73,7 +73,9 @@
             }
 
             function randomNewFood() {
-                while (snake.indexOf(food = randomPosition()) >= 0);
+                do {
+                    food = randomPosition();
+                } while (snake.indexOf(food) >= 0);
             }
 
             function randomPosition() {
