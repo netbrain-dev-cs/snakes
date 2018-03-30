@@ -30,6 +30,16 @@
                 snakeHead,
                 ctx = document.getElementById("can").getContext("2d");
 
+            document.onkeydown = function (e) {
+                var keyCode = (e || event).keyCode;
+                var newStep = stepDic[keyCode];
+                moveStep = newStep || moveStep;
+            };
+
+            move();
+
+            return void(0);
+
             function draw(positionIndex, c) {
                 ctx.fillStyle = c;
 
@@ -38,14 +48,6 @@
 
                 ctx.fillRect(x, y, 18, 18);
             }
-
-            document.onkeydown = function (e) {
-                var keyCode = (e || event).keyCode;
-                var newStep = stepDic[keyCode];
-                moveStep = newStep || moveStep;
-            };
-
-            move();
 
             function move() {
                 snake.unshift(snakeHead = snake[0] + moveStep);
