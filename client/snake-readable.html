@@ -100,7 +100,7 @@
             }
 
             function isEatFood() {
-                return snakeHead == food;
+                return snakeHead === food;
             }
 
             function unshiftNewHead() {
@@ -143,13 +143,13 @@
             }
 
             function isPopRight() {
-                return moveStep == 1 &&
-                    snakeHead % WIDTH == 0;
+                return moveStep === 1 &&
+                    snakeHead % WIDTH === 0;
             }
 
             function isPopLeft() {
-                return moveStep == -1 &&
-                    snakeHead % WIDTH == MAX_WIDTH_INDEX;
+                return moveStep === -1 &&
+                    snakeHead % WIDTH === MAX_WIDTH_INDEX;
             }
         })();
     </script>
