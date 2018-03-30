@@ -17,6 +17,13 @@
             const POSITIONS_LENGTH = WIDTH * HEIGHT;
             const MAX_POSITIONS_INDEX = POSITIONS_LENGTH - 1;
 
+            const stepDic = {
+                '37': -1, // left
+                '38': -WIDTH, // top
+                '39': 1, // right
+                '40': WIDTH // down
+            };
+
             var snake = [42, 41],
                 food = 43,
                 moveStep = 1,
@@ -33,7 +40,8 @@
             }
 
             document.onkeydown = function (e) {
-                var moveStep = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37];
+                var keyCode = (e || event).keyCode;
+                var newStep = stepDic[keyCode];
                 moveStep = newStep || moveStep;
             };
 
