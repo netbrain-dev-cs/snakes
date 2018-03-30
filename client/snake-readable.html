@@ -62,7 +62,7 @@
             }
 
             function move() {
-                snake.unshift(snakeHead = snake[0] + moveStep);
+                unshiftNewHead();
 
                 if (isGameOver()) {
                     return alert("GAME OVER");
@@ -78,6 +78,11 @@
                 }
 
                 setTimeout(move, 130);
+            }
+
+            function unshiftNewHead() {
+                snakeHead = snake[0] + moveStep;
+                snake.unshift(snakeHead);
             }
 
             function randomNewFood() {
