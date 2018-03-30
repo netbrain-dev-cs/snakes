@@ -70,17 +70,29 @@
                     return alert("GAME OVER");
                 }
 
-                draw(snakeHead, "Lime");
+                drawHead();
 
                 if (isEatFood()) {
                     randomNewFood();
-                    draw(food, "Yellow");
+                    drawFood();
                 } else {
                     var tailGround = snake.pop();
-                    draw(tailGround, "Black");
+                    drawTailGround();
                 }
 
                 setNextMove();
+            }
+
+            function drawHead() {
+                draw(snakeHead, "Lime");
+            }
+
+            function drawFood() {
+                draw(food, "Yellow");
+            }
+
+            function drawTailGround() {
+                draw(tailGround, "Black");
             }
 
             function setNextMove() {
