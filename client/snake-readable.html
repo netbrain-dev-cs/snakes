@@ -22,15 +22,12 @@
             ctx = document.getElementById("can").getContext("2d");
 
         function draw(t, c) {
-
             ctx.fillStyle = c;
 
-            ctx.fillRect(
-                t % WIDTH * POSITION_WIDTH + 1, ~~(t / HEIGHT) * POSITION_HEIGHT + 1,
-                18,
-                18
-            );
+            var x = t % WIDTH * POSITION_WIDTH + 1;
+            var y = ~~(t / HEIGHT) * POSITION_HEIGHT + 1;
 
+            ctx.fillRect(x, y, 18, 18);
         }
 
         document.onkeydown = function (e) {
