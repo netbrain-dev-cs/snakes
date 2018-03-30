@@ -77,7 +77,7 @@
                     drawFood();
                 } else {
                     var tailGround = snake.pop();
-                    drawTailGround();
+                    drawTailGround(tailGround);
                 }
 
                 setNextMove();
@@ -91,7 +91,7 @@
                 draw(food, "Yellow");
             }
 
-            function drawTailGround() {
+            function drawTailGround(tailGround) {
                 draw(tailGround, "Black");
             }
 
