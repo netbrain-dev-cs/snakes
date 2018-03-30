@@ -7,60 +7,63 @@
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
 
     <script>
-        const WIDTH = 20;
-        const MAX_WIDTH_INDEX = WIDTH - 1;
-        const HEIGHT = 20;
-        const POSITION_WIDTH = 20;
-        const POSITION_HEIGHT = 20;
-        const POSITIONS_LENGTH = WIDTH * HEIGHT;
-        const MAX_POSITIONS_INDEX = POSITIONS_LENGTH - 1;
+        ;
+        (function () {
+            const WIDTH = 20;
+            const MAX_WIDTH_INDEX = WIDTH - 1;
+            const HEIGHT = 20;
+            const POSITION_WIDTH = 20;
+            const POSITION_HEIGHT = 20;
+            const POSITIONS_LENGTH = WIDTH * HEIGHT;
+            const MAX_POSITIONS_INDEX = POSITIONS_LENGTH - 1;
 
-        var snake = [42, 41],
-            food = 43,
-            moveStep = 1,
-            snakeHead,
-            ctx = document.getElementById("can").getContext("2d");
+            var snake = [42, 41],
+                food = 43,
+                moveStep = 1,
+                snakeHead,
+                ctx = document.getElementById("can").getContext("2d");
 
-        function draw(positionIndex, c) {
-            ctx.fillStyle = c;
+            function draw(positionIndex, c) {
+                ctx.fillStyle = c;
 
-            var x = positionIndex % WIDTH * POSITION_WIDTH + 1;
-            var y = ~~(positionIndex / HEIGHT) * POSITION_HEIGHT + 1;
+                var x = positionIndex % WIDTH * POSITION_WIDTH + 1;
+                var y = ~~(positionIndex / HEIGHT) * POSITION_HEIGHT + 1;
 
-            ctx.fillRect(x, y, 18, 18);
-        }
-
-        document.onkeydown = function (e) {
-            moveStep =
-                snake[1] - snake[0] == (snakeHead = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep) ?
-                moveStep :
-                snakeHead
-        };
-
-        ! function () {
-            snake.unshift(snakeHead = snake[0] + moveStep);
-
-            if (
-                snake.indexOf(snakeHead, 1) > 0 ||
-                snakeHead < 0 ||
-                snakeHead > MAX_POSITIONS_INDEX ||
-                moveStep == 1 && snakeHead % WIDTH == 0 ||
-                moveStep == -1 && snakeHead % WIDTH == MAX_WIDTH_INDEX
-            ) {
-                return alert("GAME OVER");
+                ctx.fillRect(x, y, 18, 18);
             }
 
-            draw(snakeHead, "Lime");
+            document.onkeydown = function (e) {
+                moveStep =
+            		snake[1] - snake[0] == (snakeHead = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep) ?
+                    moveStep :
+                    snakeHead
+            };
 
-            if (snakeHead == food) {
-                while (snake.indexOf(food = ~~(Math.random() * POSITIONS_LENGTH)) >= 0);
-                draw(food, "Yellow");
-            } else {
-                draw(snake.pop(), "Black");
-            }
+            ! function () {
+                snake.unshift(snakeHead = snake[0] + moveStep);
 
-            setTimeout(arguments.callee, 130);
-        }();
+                if (
+                    snake.indexOf(snakeHead, 1) > 0 ||
+                    snakeHead < 0 ||
+                    snakeHead > MAX_POSITIONS_INDEX ||
+                    moveStep == 1 && snakeHead % WIDTH == 0 ||
+                    moveStep == -1 && snakeHead % WIDTH == MAX_WIDTH_INDEX
+                ) {
+                    return alert("GAME OVER");
+                }
+
+                draw(snakeHead, "Lime");
+
+                if (snakeHead == food) {
+                    while (snake.indexOf(food = ~~(Math.random() * POSITIONS_LENGTH)) >= 0);
+                    draw(food, "Yellow");
+                } else {
+                    draw(snake.pop(), "Black");
+                }
+
+                setTimeout(arguments.callee, 130);
+            }();
+        })();
     </script>
 
 </body>
