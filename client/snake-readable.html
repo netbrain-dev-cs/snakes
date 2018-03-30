@@ -21,11 +21,11 @@
             snakeHead,
             ctx = document.getElementById("can").getContext("2d");
 
-        function draw(t, c) {
+        function draw(positionIndex, c) {
             ctx.fillStyle = c;
 
-            var x = t % WIDTH * POSITION_WIDTH + 1;
-            var y = ~~(t / HEIGHT) * POSITION_HEIGHT + 1;
+            var x = positionIndex % WIDTH * POSITION_WIDTH + 1;
+            var y = ~~(positionIndex / HEIGHT) * POSITION_HEIGHT + 1;
 
             ctx.fillRect(x, y, 18, 18);
         }
