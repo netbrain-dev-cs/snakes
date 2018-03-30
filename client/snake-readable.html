@@ -31,13 +31,13 @@
         }
 
         document.onkeydown = function (e) {
-            moveStep = snake[1] - snake[0] == (snakeHead = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep) ?
+            moveStep =
+                snake[1] - snake[0] == (snakeHead = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep) ?
                 moveStep :
                 snakeHead
         };
 
         ! function () {
-
             snake.unshift(snakeHead = snake[0] + moveStep);
 
             if (
@@ -46,24 +46,20 @@
                 snakeHead > MAX_POSITIONS_INDEX ||
                 moveStep == 1 && snakeHead % WIDTH == 0 ||
                 moveStep == -1 && snakeHead % WIDTH == MAX_WIDTH_INDEX
-            )
-                return alert(
-                    "GAME OVER");
+            ) {
+                return alert("GAME OVER");
+            }
 
             draw(snakeHead, "Lime");
 
             if (snakeHead == food) {
-
                 while (snake.indexOf(food = ~~(Math.random() * POSITIONS_LENGTH)) >= 0);
-
                 draw(food, "Yellow");
-
-            } else
-
+            } else {
                 draw(snake.pop(), "Black");
+            }
 
             setTimeout(arguments.callee, 130);
-
         }();
     </script>
 
