@@ -74,7 +74,8 @@
                     randomNewFood();
                     draw(food, "Yellow");
                 } else {
-                    draw(snake.pop(), "Black");
+                    var tailGround = snake.pop();
+                    draw(tailGround, "Black");
                 }
 
                 setTimeout(move, 130);
