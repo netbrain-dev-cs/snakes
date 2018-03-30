@@ -47,10 +47,18 @@
             function draw(positionIndex, c) {
                 ctx.fillStyle = c;
 
-                var x = positionIndex % WIDTH * POSITION_WIDTH + 1;
-                var y = ~~(positionIndex / HEIGHT) * POSITION_HEIGHT + 1;
+                var x = getPositionX(positionIndex);
+                var y = getPositionY(positionIndex);
 
                 ctx.fillRect(x, y, 18, 18);
+            }
+
+            function getPositionX(positionIndex) {
+                return positionIndex % WIDTH * POSITION_WIDTH + 1;
+            }
+
+            function getPositionY() {
+                return ~~(positionIndex / HEIGHT) * POSITION_HEIGHT + 1;
             }
 
             function move() {
