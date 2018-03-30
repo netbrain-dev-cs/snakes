@@ -7,6 +7,14 @@
     <canvas id="can" width="400" height="400" style="background:Black"></canvas>
 
     <script>
+        const WIDTH = 20;
+        const MAX_WIDTH_INDEX = WIDTH - 1;
+        const HEIGHT = 20;
+        const POSITION_WIDTH = 20;
+        const POSITION_HEIGHT = 20;
+        const POSITIONS_LENGTH = WIDTH * HEIGHT;
+        const MAX_POSITIONS_INDEX = POSITIONS_LENGTH - 1;
+
         var sn = [42, 41],
             dz = 43,
             fx = 1,
@@ -18,7 +26,7 @@
             ctx.fillStyle = c;
 
             ctx.fillRect(
-                t % 20 * 20 + 1, ~~(t / 20) * 20 + 1,
+                t % WIDTH * POSITION_WIDTH + 1, ~~(t / HEIGHT) * POSITION_HEIGHT + 1,
                 18,
                 18
             );
@@ -26,7 +34,7 @@
         }
 
         document.onkeydown = function (e) {
-            fx = sn[1] - sn[0] == (n = [-1, -20, 1, 20][(e || event).keyCode - 37] || fx) ?
+            fx = sn[1] - sn[0] == (n = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || fx) ?
                 fx :
                 n
         };
@@ -38,9 +46,9 @@
             if (
                 sn.indexOf(n, 1) > 0 ||
                 n < 0 ||
-                n > 399 ||
-                fx == 1 && n % 20 == 0 ||
-                fx == -1 && n % 20 == 19
+                n > MAX_POSITIONS_INDEX ||
+                fx == 1 && n % WIDTH == 0 ||
+                fx == -1 && n % WIDTH == MAX_WIDTH_INDEX
             )
                 return alert(
                     "GAME OVER");
@@ -49,7 +57,7 @@
 
             if (n == dz) {
 
-                while (sn.indexOf(dz = ~~(Math.random() * 400)) >= 0);
+                while (sn.indexOf(dz = ~~(Math.random() * POSITIONS_LENGTH)) >= 0);
 
                 draw(dz, "Yellow");
 
