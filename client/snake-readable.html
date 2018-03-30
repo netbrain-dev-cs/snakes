@@ -33,10 +33,10 @@
             }
 
             document.onkeydown = function (e) {
-                snakeHead = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep;
-                moveStep = snake[1] - snake[0] == snakeHead ?
+                var newStep = [-1, -WIDTH, 1, WIDTH][(e || event).keyCode - 37] || moveStep;
+                moveStep = snake[1] - snake[0] == newStep ?
                     moveStep :
-                    snakeHead
+                    newStep
             };
 
             ! function () {
