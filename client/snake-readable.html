@@ -70,7 +70,7 @@
 
                 draw(snakeHead, "Lime");
 
-                if (snakeHead == food) {
+                if (isEatFood()) {
                     randomNewFood();
                     draw(food, "Yellow");
                 } else {
@@ -78,6 +78,10 @@
                 }
 
                 setTimeout(move, 130);
+            }
+
+            function isEatFood() {
+                return snakeHead == food;
             }
 
             function unshiftNewHead() {
