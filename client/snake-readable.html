@@ -54,11 +54,13 @@
             }
 
             function getPositionX(positionIndex) {
-                return positionIndex % WIDTH * POSITION_WIDTH + 1;
+                var column = positionIndex % WIDTH;
+                return column * POSITION_WIDTH + 1;
             }
 
             function getPositionY() {
-                return ~~(positionIndex / WIDTH) * POSITION_HEIGHT + 1;
+                var row = ~~(positionIndex / WIDTH);
+                return row * POSITION_HEIGHT + 1;
             }
 
             function move() {
