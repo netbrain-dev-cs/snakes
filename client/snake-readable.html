@@ -63,13 +63,17 @@
                 draw(snakeHead, "Lime");
 
                 if (snakeHead == food) {
-                    while (snake.indexOf(food = ~~(Math.random() * POSITIONS_LENGTH)) >= 0);
+                    randomNewFood();
                     draw(food, "Yellow");
                 } else {
                     draw(snake.pop(), "Black");
                 }
 
                 setTimeout(move, 130);
+            }
+
+            function randomNewFood() {
+                while (snake.indexOf(food = ~~(Math.random() * POSITIONS_LENGTH)) >= 0);
             }
 
             function isGameOver() {
