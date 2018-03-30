@@ -83,13 +83,34 @@
             }
 
             function isGameOver() {
-                return snake.indexOf(snakeHead, 1) > 0 ||
-                    snakeHead < 0 ||
-                    snakeHead > MAX_POSITIONS_INDEX ||
-                    moveStep == 1 && snakeHead % WIDTH == 0 ||
-                    moveStep == -1 && snakeHead % WIDTH == MAX_WIDTH_INDEX;
+                return isPopSelf() ||
+                    isPopTop() ||
+                    isPopBottom() ||
+                    isPopRight() ||
+                    isPopLeft();
             }
 
+            function isPopSelf() {
+                return snake.indexOf(snakeHead, 1) > 0;
+            }
+
+            function isPopTop() {
+                return snakeHead < 0;
+            }
+
+            function isPopBottom() {
+                return snakeHead > MAX_POSITIONS_INDEX;
+            }
+
+            function isPopRight() {
+                return moveStep == 1 &&
+                    snakeHead % WIDTH == 0;
+            }
+
+            function isPopLeft() {
+                return moveStep == -1 &&
+                    snakeHead % WIDTH == MAX_WIDTH_INDEX;
+            }
         })();
     </script>
 
