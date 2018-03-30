@@ -45,7 +45,9 @@
                 moveStep = newStep || moveStep;
             };
 
-            ! function () {
+            move();
+
+            function move() {
                 snake.unshift(snakeHead = snake[0] + moveStep);
 
                 if (
@@ -67,8 +69,9 @@
                     draw(snake.pop(), "Black");
                 }
 
-                setTimeout(arguments.callee, 130);
-            }();
+                setTimeout(move, 130);
+            }
+
         })();
     </script>
 
