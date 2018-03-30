@@ -24,14 +24,14 @@
                 '40': WIDTH // down
             };
 
-            var snake = [42, 41],
+            let snake = [42, 41],
                 food = 43,
                 moveStep = 1,
                 snakeHead,
                 ctx = document.getElementById("can").getContext("2d");
 
             document.onkeydown = function (e) {
-                var keyCode = (e || event).keyCode;
+                let keyCode = (e || event).keyCode;
                 updateMoveStep(keyCode);
             };
 
@@ -40,26 +40,26 @@
             return void(0);
 
             function updateMoveStep(keyCode) {
-                var newStep = KEYCODE_STEP_MAP[keyCode];
+                let newStep = KEYCODE_STEP_MAP[keyCode];
                 moveStep = newStep || moveStep;
             }
 
             function draw(positionIndex, c) {
                 ctx.fillStyle = c;
 
-                var x = getPositionX(positionIndex);
-                var y = getPositionY(positionIndex);
+                let x = getPositionX(positionIndex);
+                let y = getPositionY(positionIndex);
 
                 ctx.fillRect(x, y, 18, 18);
             }
 
             function getPositionX(positionIndex) {
-                var column = positionIndex % WIDTH;
+                let column = positionIndex % WIDTH;
                 return column * POSITION_WIDTH + 1;
             }
 
             function getPositionY(positionIndex) {
-                var row = ~~(positionIndex / WIDTH);
+                let row = ~~(positionIndex / WIDTH);
                 return row * POSITION_HEIGHT + 1;
             }
 
@@ -76,7 +76,7 @@
                     randomNewFood();
                     drawFood();
                 } else {
-                    var tailGround = snake.pop();
+                    let tailGround = snake.pop();
                     drawTailGround(tailGround);
                 }
 
