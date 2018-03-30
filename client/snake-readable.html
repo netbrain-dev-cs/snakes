@@ -56,13 +56,7 @@
             function move() {
                 snake.unshift(snakeHead = snake[0] + moveStep);
 
-                if (
-                    snake.indexOf(snakeHead, 1) > 0 ||
-                    snakeHead < 0 ||
-                    snakeHead > MAX_POSITIONS_INDEX ||
-                    moveStep == 1 && snakeHead % WIDTH == 0 ||
-                    moveStep == -1 && snakeHead % WIDTH == MAX_WIDTH_INDEX
-                ) {
+                if (isGameOver()) {
                     return alert("GAME OVER");
                 }
 
@@ -76,6 +70,14 @@
                 }
 
                 setTimeout(move, 130);
+            }
+
+            function isGameOver() {
+                return snake.indexOf(snakeHead, 1) > 0 ||
+                    snakeHead < 0 ||
+                    snakeHead > MAX_POSITIONS_INDEX ||
+                    moveStep == 1 && snakeHead % WIDTH == 0 ||
+                    moveStep == -1 && snakeHead % WIDTH == MAX_WIDTH_INDEX;
             }
 
         })();
