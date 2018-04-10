@@ -8,7 +8,7 @@
 
     <script>
         ;
-        (function () {
+        (function() {
             const WIDTH = 20;
             const MAX_WIDTH_INDEX = WIDTH - 1;
             const HEIGHT = 20;
@@ -17,11 +17,11 @@
             const POSITIONS_LENGTH = WIDTH * HEIGHT;
             const MAX_POSITIONS_INDEX = POSITIONS_LENGTH - 1;
 
-            const KEYCODE_STEP_MAP = {
-                '37': -1, // left
-                '38': -WIDTH, // top
-                '39': 1, // right
-                '40': WIDTH // down
+            const KEYCODE_HANDLER_MAP = {
+                '37': turnLeft,
+                '38': turnUp,
+                '39': turnRight,
+                '40': turnDown
             };
 
             let snake = [42, 41],
@@ -30,18 +30,38 @@
                 snakeHead,
                 ctx = document.getElementById("can").getContext("2d");
 
-            document.onkeydown = function (e) {
-                let keyCode = (e || event).keyCode;
-                updateMoveStep(keyCode);
+            document.onkeydown = function(e) {
+                const keyCode = (e || event).keyCode;
+                const keyHandler = KEYCODE_HANDLER_MAP[keyCode];
+                if (typeof keyHandler === 'function') {
+                    keyHandler();
+                }
             };
 
             move();
 
             return void(0);
 
-            function updateMoveStep(keyCode) {
-                let newStep = KEYCODE_STEP_MAP[keyCode];
-                moveStep = newStep || moveStep;
+            function turnLeft() {
+                updateMoveStep(-1);
+            }
+
+            function turnUp() {
+                updateMoveStep(-WIDTH);
+            }
+
+            function turnRight() {
+                updateMoveStep(1);
+            }
+
+            function turnDown() {
+                updateMoveStep(WIDTH);
+            }
+
+            function updateMoveStep(newStep) {
+                if (newStep && newStep !== -moveStep) {
+                    moveStep = newStep;
+                }
             }
 
             function draw(positionIndex, c) {
